@@ -1,30 +1,25 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F4F4F4;
-    overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
 header {
-    background-color: #333;
+    background-color: #3EA941;
     color: white;
     text-align: center;
-    padding: 20px;
-    background-image: url('snake_background.jpg'); /* Add a background image */
-    background-size: cover;
-    background-position: center;
+    padding: 10px 0;
 }
 
 nav ul {
+    background-color: #3EA941;
     list-style: none;
-    display: flex;
-    justify-content: center;
-    background-color: #333;
-    padding: 10px;
+    padding: 0;
+    text-align: right;
 }
 
 nav ul li {
+    display: inline;
     margin-right: 20px;
 }
 
@@ -32,74 +27,76 @@ nav ul li a {
     text-decoration: none;
     color: white;
     font-weight: bold;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #55b4d4;
 }
 
 main {
-    text-align: center;
-    margin: 20px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.game-container {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    background-color: #71B9E3; /* Change the background color */
-    border: 2px solid #2086C2;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.snake, .food {
-    width: 20px;
-    height: 20px;
-    background-image: url('snake.png'); /* Add a snake image */
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: absolute;
-}
-
-.food {
-    background-image: url('food.png'); /* Add a food image */
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.score {
-    font-size: 24px;
-    font-weight: bold;
     margin-top: 20px;
-    color: #333;
 }
 
 .difficulty {
-    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.difficulty p {
     font-weight: bold;
-    margin-top: 20px;
-    color: #333;
+    font-size: 18px;
 }
 
 button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #55b4d4;
-    border: none;
+    background-color: #3EA941;
     color: white;
-    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #2086C2;
+    background-color: #2E7E31;
 }
+
+.game-container {
+    position: relative;
+    width: 600px; /* Adjust the width as needed */
+    height: 600px; /* Adjust the height as needed */
+    border: 1px solid #000;
+    overflow: hidden;
+}
+
+#snake {
+    width: 20px;
+    height: 20px;
+    background-color: #3EA941; /* Snake color */
+    position: absolute;
+}
+
+.snake-segment {
+    width: 20px;
+    height: 20px;
+    background-color: #3EA941; /* Snake's segment color */
+    position: absolute;
+}
+
+#food {
+    width: 20px;
+    height: 20px;
+    background-color: red; /* Food color */
+    position: absolute;
+}
+
+.score {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.score p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* You can add more styling as needed. */

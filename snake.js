@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     let grid = 20;
-    let initialSnakeSpeed = 200;
+    let initialSnakeSpeed = 150;
     let snakeSpeed = initialSnakeSpeed;
     let score = 0;
     let highestScore = 0;
-    let isGameRunning = false; // To track if the game is currently running
-    let isGameOver = false; // To track if the game is over
+    let isGameRunning = false;
+    let isGameOver = false;
 
     const gameContainer = document.querySelector(".game-container");
     const snakeElement = document.getElementById("snake");
@@ -109,13 +109,25 @@ document.addEventListener("DOMContentLoaded", () => {
             score += 10;
             scoreElement.textContent = score;
             updateFoodPosition();
-            snakeSpeed -= 10; // Increase game speed when food is eaten
+            // Increase the snake's length
+            // Add a new segment to the snake
+            snake.push({});
+            
+            // Create a new segment for the snake
+            const newSegment = document.createElement("div");
+            newSegment.className = "snake-segment";
+            newSegment.style.left = `${newHead.x * grid}px`;
+            newSegment.style.top = `${newHead.y * grid}px`;
+            gameContainer.appendChild(newSegment);
         } else {
             snake.pop();
+            const removedSegment = document.querySelector(".snake-segment");
+            if (removedSegment) {
+                gameContainer.removeChild(removedSegment);
+            }
         }
 
-        snakeElement.style.left = `${newHead.x * grid}px`;
-        snakeElement.style.top = `${newHead.y * grid}px`;
+        // ...
 
         checkCollision();
         changingDirection = false;
@@ -127,42 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
         gameLoop = setInterval(updateGame, snakeSpeed);
     }
 
-    document.addEventListener("keydown", (event) => {
-        if (isGameRunning) {
-            switch (event.key) {
-                case "ArrowUp":
-                    if (direction !== "down") direction = "up";
-                    break;
-                case "ArrowDown":
-                    if (direction !== "up") direction = "down";
-                    break;
-                case "ArrowLeft":
-                    if (direction !== "right") direction = "left";
-                    break;
-                case "ArrowRight":
-                    if (direction !== "left") direction = "right";
-                    break;
-            }
-        }
-    });
+    // ...
 
-    easyButton.addEventListener("click", () => {
-        grid = 20;
-        initialSnakeSpeed = 200;
-        resetGame();
-    });
-
-    mediumButton.addEventListener("click", () => {
-        grid = 30;
-        initialSnakeSpeed = 150;
-        resetGame();
-    });
-
-    hardButton.addEventListener("click", () => {
-        grid = 40;
-        initialSnakeSpeed = 100;
-        resetGame();
-    });
-
-    startGame();
 });
