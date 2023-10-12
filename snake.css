@@ -53,13 +53,45 @@ main {
     border: 2px solid #888;
 }
 
-#snake, #food {
+.snake, .food {
     position: absolute;
     width: 20px;
     height: 20px;
+}
+
+.snake {
     background-color: #333;
 }
 
-#food {
+.food {
     background-color: #FF0000;
+}
+
+.score {
+    text-align: left;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.difficulty {
+    text-align: left;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #55b4d4;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
 }
