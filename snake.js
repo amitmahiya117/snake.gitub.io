@@ -1,10 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const grid = 20; // Grid size in pixels
-    const snakeSpeed = 200; // Snake movement speed in milliseconds
+    const grid = 20;
+    const initialSnakeSpeed = 200;
+    let snakeSpeed = initialSnakeSpeed;
+    let score = 0;
+    let highestScore = 0;
 
     const gameContainer = document.querySelector(".game-container");
     const snakeElement = document.getElementById("snake");
     const foodElement = document.getElementById("food");
+    const scoreElement = document.getElementById("score");
+    const highestScoreElement = document.getElementById("highest-score");
+    const easyButton = document.getElementById("easy");
+    const mediumButton = document.getElementById("medium");
+    const hardButton = document.getElementById("hard");
 
     let snake = [{ x: 10, y: 10 }];
     let food = { x: 5, y: 5 };
@@ -27,11 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function endGame() {
         clearInterval(gameLoop);
         alert("Game Over! Press OK to restart.");
-        snake = [{ x: 10, y: 10 }];
-        direction = "right";
-        changingDirection = false;
-        updateFoodPosition();
-        gameLoop = setInterval(updateGame, snakeSpeed);
+        if (score > highestScore) {
+            highestScore = score;
+            highestScoreElement.textContent = highestScore;
+        }
+        resetGame();
     }
 
     function checkCollision() {
@@ -50,6 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
             }
         }
+    }
+
+    function resetGame() {
+        snake = [{ x: 10, y: 10 }];
+        direction = "right";
+        changingDirection = false;
+        score = 0;
+        scoreElement.textContent = score;
+        updateFoodPosition();
+        gameLoop = setInterval(updateGame, snakeSpeed);
     }
 
     function updateGame() {
@@ -76,7 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
         snake.unshift(newHead);
 
         if (newHead.x === food.x && newHead.y === food.y) {
+            score += 10;
+            scoreElement.textContent = score;
             updateFoodPosition();
+            snakeSpeed -= 10; // Increase game speed when food is eaten
         } else {
             snake.pop();
         }
@@ -105,6 +126,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    updateFoodPosition();
-    const gameLoop = setInterval(updateGame, snakeSpeed);
+    easyButton.addEventListener("click", () => {
+        resetGame();
+        snakeSpeed = initialSnakeSpeed;
+    });
+
+    mediumButton.addEventListener("click", () => {
+        resetGame();
+        snakeSpeed = initialSnakeSpeed - 20;
+    });
+
+    hardButton.addEventListener("click", () => {
+        resetGame();
+        snakeSpeed = initialSnakeSpeed - 40;
+    });
+
+    resetGame(); // Start the game
 });
