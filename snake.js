@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const grid = 20;
-    const initialSnakeSpeed = 200;
+    let grid = 20;
+    let initialSnakeSpeed = 200;
     let snakeSpeed = initialSnakeSpeed;
     let score = 0;
     let highestScore = 0;
+    let isGameRunning = false; // To track if the game is currently running
+    let isGameOver = false; // To track if the game is over
 
     const gameContainer = document.querySelector(".game-container");
     const snakeElement = document.getElementById("snake");
@@ -18,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let food = { x: 5, y: 5 };
     let direction = "right";
     let changingDirection = false;
+    let gameLoop;
 
     function getRandomPosition() {
         return Math.floor(Math.random() * grid);
@@ -33,13 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function endGame() {
+        isGameOver = true;
         clearInterval(gameLoop);
-        alert("Game Over! Press OK to restart.");
+
         if (score > highestScore) {
             highestScore = score;
             highestScoreElement.textContent = highestScore;
         }
-        resetGame();
+
+        const playAgain = confirm("Game Over! Play again?");
+        if (playAgain) {
+            resetGame();
+        } else {
+            isGameRunning = false;
+        }
     }
 
     function checkCollision() {
@@ -67,11 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
         score = 0;
         scoreElement.textContent = score;
         updateFoodPosition();
-        gameLoop = setInterval(updateGame, snakeSpeed);
+        isGameOver = false;
+        snakeSpeed = initialSnakeSpeed;
+        startGame();
     }
 
     function updateGame() {
-        if (changingDirection) return;
+        if (changingDirection || isGameOver) return;
         changingDirection = true;
 
         const newHead = { ...snake[0] };
@@ -109,37 +121,48 @@ document.addEventListener("DOMContentLoaded", () => {
         changingDirection = false;
     }
 
+    function startGame() {
+        if (isGameRunning) return;
+        isGameRunning = true;
+        gameLoop = setInterval(updateGame, snakeSpeed);
+    }
+
     document.addEventListener("keydown", (event) => {
-        switch (event.key) {
-            case "ArrowUp":
-                if (direction !== "down") direction = "up";
-                break;
-            case "ArrowDown":
-                if (direction !== "up") direction = "down";
-                break;
-            case "ArrowLeft":
-                if (direction !== "right") direction = "left";
-                break;
-            case "ArrowRight":
-                if (direction !== "left") direction = "right";
-                break;
+        if (isGameRunning) {
+            switch (event.key) {
+                case "ArrowUp":
+                    if (direction !== "down") direction = "up";
+                    break;
+                case "ArrowDown":
+                    if (direction !== "up") direction = "down";
+                    break;
+                case "ArrowLeft":
+                    if (direction !== "right") direction = "left";
+                    break;
+                case "ArrowRight":
+                    if (direction !== "left") direction = "right";
+                    break;
+            }
         }
     });
 
     easyButton.addEventListener("click", () => {
+        grid = 20;
+        initialSnakeSpeed = 200;
         resetGame();
-        snakeSpeed = initialSnakeSpeed;
     });
 
     mediumButton.addEventListener("click", () => {
+        grid = 30;
+        initialSnakeSpeed = 150;
         resetGame();
-        snakeSpeed = initialSnakeSpeed - 20;
     });
 
     hardButton.addEventListener("click", () => {
+        grid = 40;
+        initialSnakeSpeed = 100;
         resetGame();
-        snakeSpeed = initialSnakeSpeed - 40;
     });
 
-    resetGame(); // Start the game
+    startGame();
 });
